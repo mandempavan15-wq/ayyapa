@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Smooth Scroll</title>
+    <!-- Google Fonts for typography matching the design -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            font-family: 'Montserrat', sans-serif;
+            /* Large height to enable scrolling for the animation */
+            height: 500vh;
+            overflow-x: hidden;
+        }
+
+        /* Fixed background canvas for the car animation */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2; /* Pushed further back to allow for overlay */
+        }
+
+        /* Dark overlay to make text more readable against the background */
+        .canvas-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5); /* 50% black overlay */
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Top Contact Bar */
+        .top-bar {
+            background: #fff;
+            padding: 5px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: #0B132B;
+        }
+
+        .top-bar .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-bar .contact-info span {
+            color: #c80f0f;
+        }
+
+        .top-bar .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .top-bar .social-icons i {
+            cursor: pointer;
+        }
+
+        /* Navigation Menu */
+        header {
+            background: #0B132B;
+            padding: 0 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: #fff;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 0px #c80f0f;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            height: 100%;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: #c80f0f;
+        }
+
+        .quote-btn {
+            background: #c80f0f;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+
+        .quote-btn:hover {
+            background: #a00b0b;
+        }
+
+        /* Hero Overlay Section */
+        .hero {
+            position: absolute; /* Absolute so it scrolls away naturally */
+            top: 110px; /* Offset for top bar and header */
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 110px);
+            display: flex;
+            align-items: center;
+            z-index: 5;
+            pointer-events: none; /* Let clicks pass to background if needed */
+        }
+
+        /* The angular white background on the left */
+        .hero-bg-shape {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 65%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            clip-path: polygon(0 0, 100% 0, 75% 100%, 0% 100%);
+            z-index: 1;
+        }
+
+        /* Content inside hero */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding-left: 60px;
+            max-width: 650px;
+            pointer-events: auto; /* Enable clicks on buttons */
+        }
+
+        .subtitle {
+            font-size: 15px;
+            font-weight: 900;
+            color: #0B132B;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .slashes {
+            color: #c80f0f;
+            letter-spacing: -2px;
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+
+        .main-title {
+            font-size: 65px;
+            font-weight: 900;
+            color: #0B132B;
+            line-height: 1.05;
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+        }
+
+        .main-title .highlight {
+            color: #c80f0f;
+        }
+
+        .description {
+            font-size: 18px;
+            font-weight: 400;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        /* Features row */
+        .features {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 90px;
+            gap: 10px;
+        }
+
+        .feature i {
+            font-size: 30px;
+            color: #c80f0f;
+        }
+
+        .feature-text {
+            font-size: 11px;
+            font-weight: 900;
+            color: #0B132B;
+            text-transform: uppercase;
+        }
+
+        .shop-btn {
+            background: #c80f0f;
+            color: #fff;
+            border: none;
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s;
+        }
+
+        .shop-btn:hover {
+            background: #a00b0b;
+        }
+
+        /* Bottom category bar */
+        .bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 5%;
+            width: 90%;
+            background: #0B132B;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-radius: 15px 15px 0 0;
+            z-index: 10;
+            color: white;
+            box-sizing: border-box;
+            border-bottom: 4px solid #c80f0f;
+            pointer-events: auto;
+        }
+
+        .category {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding-right: 20px;
+            cursor: pointer;
+        }
+
+        .category:last-child {
+            border-right: none;
+            padding-right: 0;
+        }
+        
+        .category:hover i {
+            color: #c80f0f;
+        }
+
+        .category i {
+            font-size: 26px;
+            color: #fff;
+            transition: color 0.3s;
+        }
+
+        .category-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category-text strong {
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+
+        .category-text span {
+            font-size: 10px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- UI Overlay container -->
+    <div class="top-bar">
+        <div class="contact-info">
+            <div>Ph <span>9700314415</span></div>
+            <div>|</div>
+            <i class="fa-solid fa-location-dot" style="color: #c80f0f;"></i>
+        </div>
+        <div class="social-icons">
+            <i class="fa-brands fa-facebook-f"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-youtube"></i>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">AYYAPPA</div>
+        <nav>
+            <a href="#" class="active">Home</a>
+            <a href="#">About Us</a>
+            <a href="#">Products <i class="fa-solid fa-angle-down"></i></a>
+            <a href="#">Services</a>
+            <a href="#">Gallery</a>
+            <a href="#">Blog</a>
+            <a href="#">Contact Us</a>
+            <button class="quote-btn">Get a Quote</button>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <div class="hero-bg-shape"></div>
+        <div class="hero-content">
+            <div class="subtitle">
+                <span class="slashes">////</span> DRIVE SAFE. <span style="color:#c80f0f">DRIVE HAPPY.</span> <span class="slashes">////</span>
+            </div>
+            <h1 class="main-title">DRIVE YOUR CAR<br>WITH <span class="highlight">LUXURY</span><br>AND STYLE.</h1>
+            <p class="description">Premium Car Accessories to Enhance Comfort, Safety & Style. Because Your Car Deserves the Best.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <div class="feature-text">Premium<br>Quality</div>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-gear"></i>
+                    <div class="feature-text">Perfect<br>Fit</div>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <div class="feature-text">Enhanced<br>Safety</div>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-medal"></i>
+                    <div class="feature-text">Trusted<br>Service</div>
+                </div>
+            </div>
+
+            <button class="shop-btn">SHOP NOW <i class="fa-solid fa-angle-right"></i></button>
+        </div>
+
+        <!-- Bottom Category Bar -->
+        <div class="bottom-bar">
+            <div class="category">
+                <i class="fa-solid fa-chair"></i>
+                <div class="category-text">
+                    <strong>INTERIORS</strong>
+                    <span>Comfort & Style</span>
+                </div>
+            </div>
+            <div class="category">
+                <i class="fa-solid fa-life-ring"></i>
+                <div class="category-text">
+                    <strong>ALLOY WHEELS</strong>
+                    <span>Performance Looks</span>
+                </div>
+            </div>
+            <div class="category">
+                <i class="fa-solid fa-volume-high"></i>
+                <div class="category-text">
+                    <strong>AUDIO SYSTEMS</strong>
+                    <span>Sound That Drives</span>
+                </div>
+            </div>
+            <div class="category">
+                <i class="fa-solid fa-lightbulb"></i>
+                <div class="category-text">
+                    <strong>LIGHTING</strong>
+                    <span>Bright, Safe, Stylish</span>
+                </div>
+            </div>
+            <div class="category">
+                <i class="fa-solid fa-car"></i>
+                <div class="category-text">
+                    <strong>CAR CARE</strong>
+                    <span>Protect & Shine</span>
+                </div>
+            </div>
+            <div class="category">
+                <i class="fa-solid fa-gears"></i>
+                <div class="category-text">
+                    <strong>ACCESSORIES</strong>
+                    <span>Upgrade Your Drive</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Animation Canvas -->
+    <div class="canvas-overlay"></div>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const frameCount = 300; 
+        const images = [];
+        
+        // State for smooth scrolling
+        const scrollState = {
+            currentFrame: 1,
+            targetFrame: 1
+        };
+
+        // Format frame numbers like ezgif-frame-001.jpg
+        const getFramePath = index => (
+            `ezgif-frame-${index.toString().padStart(3, '0')}.jpg`
+        );
+
+        // Preload images
+        for (let i = 1; i <= frameCount; i++) {
+            const img = new Image();
+            img.src = getFramePath(i);
+            images.push(img);
+        }
+
+        // Render function (object-fit: cover)
+        const render = (img) => {
+            if (img.width === 0 || img.height === 0) return;
+
+            const hRatio = canvas.width / img.width;
+            const vRatio = canvas.height / img.height;
+            const ratio = Math.max(hRatio, vRatio);
+            const centerShift_x = (canvas.width - img.width * ratio) / 2;
+            const centerShift_y = (canvas.height - img.height * ratio) / 2;
+            
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(img, 0, 0, img.width, img.height,
+                              centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+        };
+
+        // Render first frame as soon as it loads
+        images[0].onload = () => {
+            render(images[0]);
+        };
+
+        const lerp = (start, end, factor) => start + (end - start) * factor;
+
+        // Scroll logic for target frame
+        window.addEventListener("scroll", () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
+            
+            const scrollFraction = scrollTop / maxScrollTop;
+            const frameIndex = Math.min(
+                frameCount,
+                Math.max(1, Math.ceil(scrollFraction * frameCount))
+            );
+            
+            scrollState.targetFrame = frameIndex;
+            
+            // Optional: fade out hero section as user scrolls
+            const hero = document.querySelector('.hero');
+            const opacity = 1 - (scrollTop / 500); // Fades out in first 500px
+            if(opacity > 0) {
+                hero.style.opacity = opacity;
+                hero.style.transform = `translateY(${scrollTop * 0.5}px)`; // slight parallax
+            } else {
+                hero.style.opacity = 0;
+            }
+        });
+
+        const updateFrame = () => {
+            scrollState.currentFrame = lerp(scrollState.currentFrame, scrollState.targetFrame, 0.1);
+            const frameIndex = Math.round(scrollState.currentFrame);
+            const imgToRender = images[frameIndex - 1];
+            
+            if (imgToRender && imgToRender.complete) {
+                render(imgToRender);
+            }
+            
+            requestAnimationFrame(updateFrame);
+        };
+
+        requestAnimationFrame(updateFrame);
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const frameIndex = Math.round(scrollState.currentFrame);
+            const imgToRender = images[frameIndex - 1];
+            
+            if (imgToRender && imgToRender.complete) {
+                render(imgToRender);
+            }
+        });
+    </script>
+</body>
+</html>
