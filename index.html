@@ -3,41 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AYYAPPA - Premium Car Accessories</title>
-    <!-- Google Fonts for typography matching the design -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <title>AYYAPPA - Premium Car Accessories | Hyderabad</title>
+    <meta name="description" content="Ayyappa Car Accessories - Premium car accessories, custom interiors, alloy wheels, audio systems, high-power lighting, and car styling studio in Secunderabad, Hyderabad. Call +91 9700314415.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230B132B'/><path d='M50 15 L80 85 L65 85 L50 48 L35 85 L20 85 Z' fill='%23c80f0f'/><line x1='32' y1='62' x2='68' y2='62' stroke='%23ffffff' stroke-width='6'/></svg>">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
             background-color: #000;
             font-family: 'Montserrat', sans-serif;
-            /* Large height to enable scrolling for the animation */
             height: 500vh;
             overflow-x: hidden;
+            color: #fff;
         }
 
-        /* Fixed background canvas for the car animation */
+        /* Fixed background canvas for smooth car animation */
         canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: -2; /* Pushed further back to allow for overlay */
+            z-index: -2;
         }
 
-        /* Dark overlay to make text more readable against the background */
+        /* Dark overlay */
         .canvas-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.5); /* 50% black overlay */
+            background: rgba(0, 0, 0, 0.45);
             z-index: -1;
             pointer-events: none;
         }
@@ -45,60 +52,131 @@
         /* Top Contact Bar */
         .top-bar {
             background: #fff;
-            padding: 5px 60px;
+            padding: 7px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             color: #0B132B;
+            position: relative;
+            z-index: 20;
+            border-bottom: 2px solid #c80f0f;
         }
 
         .top-bar .contact-info {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 18px;
+            flex-wrap: wrap;
         }
 
-        .top-bar .contact-info span {
+        .top-link {
+            color: #0B132B;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .top-link:hover {
             color: #c80f0f;
         }
 
-        .top-bar .social-icons {
+        .top-link span.phone-num {
+            color: #c80f0f;
+            font-weight: 800;
+        }
+
+        .top-bar .divider {
+            color: #ccc;
+        }
+
+        .top-right {
             display: flex;
+            align-items: center;
             gap: 15px;
         }
 
-        .top-bar .social-icons i {
-            cursor: pointer;
+        .top-wa-btn {
+            background: #25D366;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .top-wa-btn:hover {
+            background: #1ebc59;
+            transform: scale(1.04);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-icons a {
+            color: #0B132B;
+            transition: color 0.2s, transform 0.2s;
+            font-size: 14px;
+        }
+
+        .social-icons a:hover {
+            color: #c80f0f;
+            transform: translateY(-2px);
         }
 
         /* Navigation Menu */
         header {
             background: #0B132B;
-            padding: 0 60px;
+            padding: 0 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 80px;
+            height: 75px;
             position: relative;
-            z-index: 10;
+            z-index: 15;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
         .logo {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: 900;
             color: #fff;
             font-style: italic;
             text-transform: uppercase;
             letter-spacing: -1px;
             text-shadow: 2px 2px 0px #c80f0f;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span.tagline {
+            font-size: 10px;
+            font-style: normal;
+            letter-spacing: 2px;
+            color: #f1f1f1;
+            font-weight: 600;
+            display: block;
+            margin-top: -4px;
+            text-shadow: none;
         }
 
         nav {
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 24px;
             height: 100%;
         }
 
@@ -108,7 +186,8 @@
             font-size: 13px;
             font-weight: 700;
             text-transform: uppercase;
-            transition: color 0.3s;
+            transition: color 0.2s;
+            cursor: pointer;
         }
 
         nav a:hover, nav a.active {
@@ -121,30 +200,36 @@
             border: none;
             padding: 12px 24px;
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
             text-transform: uppercase;
-            transition: background 0.3s;
+            transition: background 0.3s, transform 0.2s;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .quote-btn:hover {
             background: #a00b0b;
+            transform: translateY(-2px);
         }
 
         /* Hero Overlay Section */
         .hero {
-            position: absolute; /* Absolute so it scrolls away naturally */
-            top: 110px; /* Offset for top bar and header */
+            position: absolute;
+            top: 110px;
             left: 0;
             width: 100%;
             height: calc(100vh - 110px);
             display: flex;
             align-items: center;
             z-index: 5;
-            pointer-events: none; /* Let clicks pass to background if needed */
+            pointer-events: none;
+            transition: opacity 0.3s ease-out;
         }
 
-        /* The angular white background on the left */
+        /* Angular white background */
         .hero-bg-shape {
             position: absolute;
             top: 0;
@@ -156,37 +241,38 @@
             z-index: 1;
         }
 
-        /* Content inside hero */
+        /* Hero Content */
         .hero-content {
             position: relative;
             z-index: 2;
-            padding-left: 60px;
+            padding-left: 50px;
             max-width: 650px;
-            pointer-events: auto; /* Enable clicks on buttons */
+            pointer-events: auto;
         }
 
         .subtitle {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 900;
             color: #0B132B;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .slashes {
             color: #c80f0f;
             letter-spacing: -2px;
-            margin-right: 5px;
-            margin-left: 5px;
         }
 
         .main-title {
-            font-size: 65px;
+            font-size: 58px;
             font-weight: 900;
             color: #0B132B;
             line-height: 1.05;
-            margin: 0 0 20px 0;
+            margin: 0 0 16px 0;
             text-transform: uppercase;
         }
 
@@ -195,19 +281,39 @@
         }
 
         .description {
-            font-size: 18px;
-            font-weight: 400;
+            font-size: 16px;
+            font-weight: 500;
             color: #333;
             line-height: 1.5;
-            margin-bottom: 40px;
-            max-width: 500px;
+            margin-bottom: 30px;
+            max-width: 520px;
+        }
+
+        .location-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f4f4f4;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #0B132B;
+            margin-bottom: 25px;
+            border-left: 3px solid #c80f0f;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .location-badge:hover {
+            background: #eaeaea;
         }
 
         /* Features row */
         .features {
             display: flex;
-            gap: 30px;
-            margin-bottom: 40px;
+            gap: 25px;
+            margin-bottom: 35px;
         }
 
         .feature {
@@ -215,42 +321,75 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            width: 90px;
-            gap: 10px;
+            width: 85px;
+            gap: 8px;
         }
 
         .feature i {
-            font-size: 30px;
+            font-size: 26px;
             color: #c80f0f;
         }
 
         .feature-text {
             font-size: 11px;
-            font-weight: 900;
+            font-weight: 800;
             color: #0B132B;
             text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        /* Action buttons */
+        .hero-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .shop-btn {
             background: #c80f0f;
             color: #fff;
             border: none;
-            padding: 16px 40px;
-            font-size: 18px;
+            padding: 16px 36px;
+            font-size: 16px;
             font-weight: 900;
             cursor: pointer;
             text-transform: uppercase;
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            transition: background 0.3s;
+            transition: background 0.3s, transform 0.2s;
+            border-radius: 4px;
+            text-decoration: none;
         }
 
         .shop-btn:hover {
             background: #a00b0b;
+            transform: translateY(-2px);
         }
 
-        /* Bottom category bar */
+        .call-btn {
+            background: #0B132B;
+            color: #fff;
+            border: none;
+            padding: 16px 28px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .call-btn:hover {
+            background: #1a264a;
+        }
+
+        /* Bottom Category Bar */
         .bottom-bar {
             position: absolute;
             bottom: 0;
@@ -260,22 +399,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 30px;
-            border-radius: 15px 15px 0 0;
+            padding: 16px 25px;
+            border-radius: 12px 12px 0 0;
             z-index: 10;
             color: white;
-            box-sizing: border-box;
             border-bottom: 4px solid #c80f0f;
             pointer-events: auto;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
         }
 
         .category {
             display: flex;
             align-items: center;
             gap: 12px;
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
-            padding-right: 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
+            padding-right: 18px;
             cursor: pointer;
+            transition: transform 0.2s;
         }
 
         .category:last-child {
@@ -283,12 +423,16 @@
             padding-right: 0;
         }
         
+        .category:hover {
+            transform: translateY(-2px);
+        }
+
         .category:hover i {
             color: #c80f0f;
         }
 
         .category i {
-            font-size: 26px;
+            font-size: 24px;
             color: #fff;
             transition: color 0.3s;
         }
@@ -299,7 +443,7 @@
         }
 
         .category-text strong {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 900;
             letter-spacing: 0.5px;
         }
@@ -308,38 +452,368 @@
             font-size: 10px;
             color: #ccc;
         }
+
+        /* Floating WhatsApp Button */
+        .floating-wa {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 800;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .floating-wa:hover {
+            transform: scale(1.06) translateY(-2px);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.7);
+        }
+
+        .floating-wa i {
+            font-size: 22px;
+        }
+
+        /* Scroll indicator prompt */
+        .scroll-hint {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 12;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255,255,255,0.7);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            pointer-events: none;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+            40% { transform: translate(-50%, -8px); }
+            60% { transform: translate(-50%, -4px); }
+        }
+
+        /* Modal Overlay & Card */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: #fff;
+            color: #0B132B;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            animation: modalIn 0.3s ease-out;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-header {
+            background: #0B132B;
+            color: #fff;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #c80f0f;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #c80f0f;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #c80f0f;
+            box-shadow: 0 0 0 3px rgba(200, 15, 15, 0.15);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .submit-btn {
+            background: #c80f0f;
+            color: #fff;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            font-size: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #a00b0b;
+        }
+
+        .form-status {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+
+        .form-status.success {
+            display: block;
+            background: #e6f9ed;
+            color: #0e8a3b;
+            border: 1px solid #b7edc9;
+        }
+
+        .form-status.error {
+            display: block;
+            background: #fde8e8;
+            color: #c80f0f;
+            border: 1px solid #f8b4b4;
+        }
+
+        .direct-wa-box {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        .direct-wa-box p {
+            font-size: 12px;
+            color: #666;
+            margin: 0 0 10px 0;
+        }
+
+        /* Location Card */
+        .location-info-block {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .loc-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .loc-item i {
+            color: #c80f0f;
+            font-size: 18px;
+            margin-top: 3px;
+        }
+
+        .loc-item strong {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .loc-item p {
+            margin: 0;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .map-frame {
+            width: 100%;
+            height: 200px;
+            border: 0;
+            border-radius: 6px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-bg-shape {
+                width: 90%;
+                clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+            }
+            .main-title {
+                font-size: 42px;
+            }
+            .bottom-bar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                padding: 6px 20px;
+                flex-direction: column;
+                gap: 6px;
+                text-align: center;
+            }
+            header {
+                padding: 0 20px;
+            }
+            nav a:not(.active) {
+                display: none;
+            }
+            .hero-content {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .hero-bg-shape {
+                width: 100%;
+                clip-path: none;
+                background: rgba(255, 255, 255, 0.92);
+            }
+            .main-title {
+                font-size: 34px;
+            }
+            .features {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- UI Overlay container -->
+    <!-- Top Contact Bar -->
     <div class="top-bar">
         <div class="contact-info">
-            <div>Ph <span>9700314415</span></div>
-            <div>|</div>
-            <i class="fa-solid fa-location-dot" style="color: #c80f0f;"></i>
+            <a href="tel:+919700314415" class="top-link">
+                <i class="fa-solid fa-phone"></i> Ph <span class="phone-num">9700314415</span>
+            </a>
+            <span class="divider">|</span>
+            <a href="javascript:void(0)" onclick="openLocationModal()" class="top-link" title="Click to view shop address & Google Maps">
+                <i class="fa-solid fa-location-dot" style="color: #c80f0f;"></i>
+                <span>1-8-32/66A, Minister Rd, Secunderabad, Hyderabad</span>
+            </a>
         </div>
-        <div class="social-icons">
-            <i class="fa-brands fa-facebook-f"></i>
-            <i class="fa-brands fa-instagram"></i>
-            <i class="fa-brands fa-youtube"></i>
+        <div class="top-right">
+            <a href="https://wa.me/919700314415?text=Hi%20Ayyappa%20Car%20Accessories%2C%20I'd%20like%20to%20enquire%20about%20car%20accessories." target="_blank" class="top-wa-btn">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </a>
+            <div class="social-icons">
+                <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://youtube.com" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
         </div>
     </div>
 
+    <!-- Main Navigation Header -->
     <header>
-        <div class="logo">AYYAPPA</div>
+        <div class="logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+            <div>
+                AYYAPPA
+                <span class="tagline">CAR ACCESSORIES</span>
+            </div>
+        </div>
         <nav>
-            <a href="#" class="active">Home</a>
-            <a href="#">About Us</a>
-            <a href="#">Products <i class="fa-solid fa-angle-down"></i></a>
-            <a href="#">Services</a>
-            <a href="#">Gallery</a>
-            <a href="#">Blog</a>
-            <a href="#">Contact Us</a>
-            <button class="quote-btn">Get a Quote</button>
+            <a href="javascript:void(0)" onclick="window.scrollTo({top:0, behavior:'smooth'})" class="active">Home</a>
+            <a href="javascript:void(0)" onclick="openLocationModal()">About Us</a>
+            <a href="javascript:void(0)" onclick="openServicesModal()">Products <i class="fa-solid fa-angle-down"></i></a>
+            <a href="javascript:void(0)" onclick="openServicesModal()">Services</a>
+            <a href="javascript:void(0)" onclick="openLocationModal()">Location</a>
+            <a href="javascript:void(0)" onclick="openQuoteModal('Contact Form')">Contact Us</a>
+            <button class="quote-btn" onclick="openQuoteModal('Quote Request')">
+                <i class="fa-solid fa-file-invoice-dollar"></i> Get a Quote
+            </button>
         </nav>
     </header>
 
+    <!-- Hero Content Overlay -->
     <div class="hero">
         <div class="hero-bg-shape"></div>
         <div class="hero-content">
@@ -349,6 +823,11 @@
             <h1 class="main-title">DRIVE YOUR CAR<br>WITH <span class="highlight">LUXURY</span><br>AND STYLE.</h1>
             <p class="description">Premium Car Accessories to Enhance Comfort, Safety & Style. Because Your Car Deserves the Best.</p>
             
+            <div class="location-badge" onclick="openLocationModal()">
+                <i class="fa-solid fa-map-pin" style="color:#c80f0f"></i>
+                <span>Minister Road, Ramgopalpet, Secunderabad, Hyderabad</span>
+            </div>
+
             <div class="features">
                 <div class="feature">
                     <i class="fa-solid fa-shield-halved"></i>
@@ -368,47 +847,54 @@
                 </div>
             </div>
 
-            <button class="shop-btn">SHOP NOW <i class="fa-solid fa-angle-right"></i></button>
+            <div class="hero-actions">
+                <button class="shop-btn" onclick="openQuoteModal('Shop Now')">
+                    SHOP NOW <i class="fa-solid fa-angle-right"></i>
+                </button>
+                <a href="tel:+919700314415" class="call-btn">
+                    <i class="fa-solid fa-phone"></i> Call 9700314415
+                </a>
+            </div>
         </div>
 
         <!-- Bottom Category Bar -->
         <div class="bottom-bar">
-            <div class="category">
+            <div class="category" onclick="openQuoteModal('Interiors')">
                 <i class="fa-solid fa-chair"></i>
                 <div class="category-text">
                     <strong>INTERIORS</strong>
                     <span>Comfort & Style</span>
                 </div>
             </div>
-            <div class="category">
+            <div class="category" onclick="openQuoteModal('Alloy Wheels')">
                 <i class="fa-solid fa-life-ring"></i>
                 <div class="category-text">
                     <strong>ALLOY WHEELS</strong>
                     <span>Performance Looks</span>
                 </div>
             </div>
-            <div class="category">
+            <div class="category" onclick="openQuoteModal('Audio Systems')">
                 <i class="fa-solid fa-volume-high"></i>
                 <div class="category-text">
                     <strong>AUDIO SYSTEMS</strong>
                     <span>Sound That Drives</span>
                 </div>
             </div>
-            <div class="category">
+            <div class="category" onclick="openQuoteModal('Lighting')">
                 <i class="fa-solid fa-lightbulb"></i>
                 <div class="category-text">
                     <strong>LIGHTING</strong>
                     <span>Bright, Safe, Stylish</span>
                 </div>
             </div>
-            <div class="category">
+            <div class="category" onclick="openQuoteModal('Car Care & PPF')">
                 <i class="fa-solid fa-car"></i>
                 <div class="category-text">
                     <strong>CAR CARE</strong>
                     <span>Protect & Shine</span>
                 </div>
             </div>
-            <div class="category">
+            <div class="category" onclick="openQuoteModal('Accessories')">
                 <i class="fa-solid fa-gears"></i>
                 <div class="category-text">
                     <strong>ACCESSORIES</strong>
@@ -418,10 +904,179 @@
         </div>
     </div>
 
-    <!-- Background Animation Canvas -->
+    <!-- Scroll Indicator -->
+    <div class="scroll-hint">
+        <span>Scroll to Explore 360°</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </div>
+
+    <!-- Floating WhatsApp Widget -->
+    <a href="https://wa.me/919700314415?text=Hi%20Ayyappa%20Car%20Accessories%2C%20I'm%20interested%20in%20customizing%20my%20car." target="_blank" class="floating-wa" title="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>Chat with Us</span>
+    </a>
+
+    <!-- Background Canvas -->
     <div class="canvas-overlay"></div>
     <canvas id="canvas"></canvas>
 
+    <!-- Modal 1: Formspree Quote / Contact Form -->
+    <div id="quoteModal" class="modal-overlay" onclick="closeOnBackdrop(event, 'quoteModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-car" style="color:#c80f0f; margin-right:8px;"></i> Request a Quote</h3>
+                <button class="modal-close" onclick="closeModal('quoteModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formspreeForm" action="https://formspree.io/f/xzezbrkw" method="POST" onsubmit="submitFormspree(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="+91 97000 00000" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="car_model">Car Model & Year</label>
+                            <input type="text" id="car_model" name="car_model" class="form-control" placeholder="e.g. Creta 2024, Thar, Swift">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serviceCategory">Category / Accessory Needed</label>
+                        <select id="serviceCategory" name="service_category" class="form-control">
+                            <option value="General Inquiry">Select Category</option>
+                            <option value="Interiors (Seat Covers, Mats, Steering)">Interiors (Seat Covers, Mats, Steering)</option>
+                            <option value="Alloy Wheels & Tyres">Alloy Wheels & Tyres</option>
+                            <option value="Audio Systems & Android Screens">Audio Systems & Android Screens</option>
+                            <option value="Lighting (LEDs, Headlights, DRLs)">Lighting (LEDs, Headlights, DRLs)</option>
+                            <option value="Car Care (PPF, Ceramic Coating, Detailing)">Car Care (PPF, Ceramic Coating)</option>
+                            <option value="Exterior Accessories (Body Kits, Spoilers)">Exterior Accessories & Body Kits</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message / Specific Requirements</label>
+                        <textarea id="message" name="message" rows="3" class="form-control" placeholder="Tell us what you would like to install or upgrade..."></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="submit-btn">
+                        <i class="fa-solid fa-paper-plane"></i> Send Inquiry to Ayyappa
+                    </button>
+
+                    <div id="formStatus" class="form-status"></div>
+                </form>
+
+                <div class="direct-wa-box">
+                    <p>Want instant pricing? Talk to our technicians right now:</p>
+                    <a href="https://wa.me/919700314415?text=Hi%20Ayyappa%20Car%20Accessories%2C%20I'd%20like%20a%20quick%20quote." target="_blank" class="top-wa-btn" style="padding: 10px 20px; font-size: 14px;">
+                        <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp (+91 9700314415)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Location & About Us Modal -->
+    <div id="locationModal" class="modal-overlay" onclick="closeOnBackdrop(event, 'locationModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-location-dot" style="color:#c80f0f; margin-right:8px;"></i> Visit Ayyappa Car Accessories</h3>
+                <button class="modal-close" onclick="closeModal('locationModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="location-info-block">
+                    <div class="loc-item">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        <div>
+                            <strong>Workshop & Showroom Address</strong>
+                            <p>1-8-32/66A, Minister Road, Ramgopalpet,<br>Secunderabad, Hyderabad, Telangana 500003, India</p>
+                        </div>
+                    </div>
+                    <div class="loc-item">
+                        <i class="fa-solid fa-phone"></i>
+                        <div>
+                            <strong>Call / WhatsApp</strong>
+                            <p><a href="tel:+919700314415" style="color:#c80f0f; text-decoration:none; font-weight:800;">+91 9700314415</a></p>
+                        </div>
+                    </div>
+                    <div class="loc-item">
+                        <i class="fa-solid fa-clock"></i>
+                        <div>
+                            <strong>Working Hours</strong>
+                            <p>Monday – Saturday: 10:00 AM – 8:30 PM<br>Sunday: 10:30 AM – 3:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google Maps Embed -->
+                <iframe class="map-frame" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.9455325852923!2d78.48169991487668!3d17.4308560880526!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb9a24446a8d67%3A0xc02cf9ab984a9f93!2sMinister%20Rd%2C%20Ramgopalpet%2C%20Hyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+
+                <div style="margin-top: 15px; display:flex; gap:10px;">
+                    <a href="https://maps.google.com/?q=Ayyappa+Car+Accessories+Minister+Rd+Secunderabad+Hyderabad" target="_blank" class="submit-btn" style="text-decoration:none;">
+                        <i class="fa-solid fa-diamond-turn-right"></i> Open in Google Maps
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Services & Products Modal -->
+    <div id="servicesModal" class="modal-overlay" onclick="closeOnBackdrop(event, 'servicesModal')">
+        <div class="modal-card" style="max-width: 650px;">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-car-tunnel" style="color:#c80f0f; margin-right:8px;"></i> Products & Services</h3>
+                <button class="modal-close" onclick="closeModal('servicesModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:13px; color:#555; margin-top:0;">Explore our range of premium car upgrades available at our Minister Road showroom:</p>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap:12px; margin-bottom:20px;">
+                    <div style="background:#f8f9fa; padding:15px; border-radius:8px; border-left:3px solid #c80f0f; cursor:pointer;" onclick="closeModal('servicesModal'); openQuoteModal('Interiors')">
+                        <strong style="display:block; font-size:14px;"><i class="fa-solid fa-chair" style="color:#c80f0f"></i> Interiors</strong>
+                        <span style="font-size:11px; color:#666;">Custom leatherette seats, 7D mats, ambient lights, steering wraps.</span>
+                    </div>
+                    <div style="background:#f8f9fa; padding:15px; border-radius:8px; border-left:3px solid #c80f0f; cursor:pointer;" onclick="closeModal('servicesModal'); openQuoteModal('Alloy Wheels')">
+                        <strong style="display:block; font-size:14px;"><i class="fa-solid fa-life-ring" style="color:#c80f0f"></i> Alloy Wheels</strong>
+                        <span style="font-size:11px; color:#666;">Performance alloys, staggered setups, offroad rims & tyres.</span>
+                    </div>
+                    <div style="background:#f8f9fa; padding:15px; border-radius:8px; border-left:3px solid #c80f0f; cursor:pointer;" onclick="closeModal('servicesModal'); openQuoteModal('Audio Systems')">
+                        <strong style="display:block; font-size:14px;"><i class="fa-solid fa-volume-high" style="color:#c80f0f"></i> Audio Systems</strong>
+                        <span style="font-size:11px; color:#666;">Android touchscreen infotainment, subwoofers, amplifiers, damping.</span>
+                    </div>
+                    <div style="background:#f8f9fa; padding:15px; border-radius:8px; border-left:3px solid #c80f0f; cursor:pointer;" onclick="closeModal('servicesModal'); openQuoteModal('Lighting')">
+                        <strong style="display:block; font-size:14px;"><i class="fa-solid fa-lightbulb" style="color:#c80f0f"></i> LED Lighting</strong>
+                        <span style="font-size:11px; color:#666;">Ultra-bright LEDs, bi-xenon projectors, matrix DRLs, fog lamps.</span>
+                    </div>
+                    <div style="background:#f8f9fa; padding:15px; border-radius:8px; border-left:3px solid #c80f0f; cursor:pointer;" onclick="closeModal('servicesModal'); openQuoteModal('Car Care & PPF')">
+                        <strong style="display:block; font-size:14px;"><i class="fa-solid fa-car" style="color:#c80f0f"></i> PPF & Ceramic</strong>
+                        <span style="font-size:11px; color:#666;">Paint Protection Film (PPF), 9H Ceramic coating, detailing.</span>
+                    </div>
+                    <div style="background:#f8f9fa; padding:15px; border-radius:8px; border-left:3px solid #c80f0f; cursor:pointer;" onclick="closeModal('servicesModal'); openQuoteModal('Accessories')">
+                        <strong style="display:block; font-size:14px;"><i class="fa-solid fa-gears" style="color:#c80f0f"></i> Accessories</strong>
+                        <span style="font-size:11px; color:#666;">Body kits, spoilers, chrome styling, side footsteps, roof rails.</span>
+                    </div>
+                </div>
+                <button class="submit-btn" onclick="closeModal('servicesModal'); openQuoteModal('General Inquiry')">
+                    <i class="fa-solid fa-paper-plane"></i> Request Custom Quote
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 360 Animation & Interaction Script -->
     <script>
         const canvas = document.getElementById("canvas");
         const context = canvas.getContext("2d");
@@ -432,27 +1087,25 @@
         const frameCount = 300; 
         const images = [];
         
-        // State for smooth scrolling
         const scrollState = {
             currentFrame: 1,
             targetFrame: 1
         };
 
-        // Format frame numbers like ezgif-frame-001.jpg
         const getFramePath = index => (
             `ezgif-frame-${index.toString().padStart(3, '0')}.jpg`
         );
 
-        // Preload images
+        // Preload frames
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = getFramePath(i);
             images.push(img);
         }
 
-        // Render function (object-fit: cover)
+        // Draw image on canvas (cover mode)
         const render = (img) => {
-            if (img.width === 0 || img.height === 0) return;
+            if (!img || img.width === 0 || img.height === 0) return;
 
             const hRatio = canvas.width / img.width;
             const vRatio = canvas.height / img.height;
@@ -465,19 +1118,19 @@
                               centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
         };
 
-        // Render first frame as soon as it loads
-        images[0].onload = () => {
+        if (images[0].complete) {
             render(images[0]);
-        };
+        } else {
+            images[0].onload = () => render(images[0]);
+        }
 
         const lerp = (start, end, factor) => start + (end - start) * factor;
 
-        // Scroll logic for target frame
         window.addEventListener("scroll", () => {
-            const scrollTop = document.documentElement.scrollTop;
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
             const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
             
-            const scrollFraction = scrollTop / maxScrollTop;
+            const scrollFraction = maxScrollTop > 0 ? (scrollTop / maxScrollTop) : 0;
             const frameIndex = Math.min(
                 frameCount,
                 Math.max(1, Math.ceil(scrollFraction * frameCount))
@@ -485,14 +1138,18 @@
             
             scrollState.targetFrame = frameIndex;
             
-            // Optional: fade out hero section as user scrolls
+            // Fade out hero content on scroll
             const hero = document.querySelector('.hero');
-            const opacity = 1 - (scrollTop / 500); // Fades out in first 500px
-            if(opacity > 0) {
+            const scrollHint = document.querySelector('.scroll-hint');
+            const opacity = 1 - (scrollTop / 450);
+            
+            if (opacity > 0) {
                 hero.style.opacity = opacity;
-                hero.style.transform = `translateY(${scrollTop * 0.5}px)`; // slight parallax
+                hero.style.transform = `translateY(${scrollTop * 0.4}px)`;
+                if (scrollHint) scrollHint.style.opacity = opacity;
             } else {
                 hero.style.opacity = 0;
+                if (scrollHint) scrollHint.style.opacity = 0;
             }
         });
 
@@ -521,6 +1178,86 @@
                 render(imgToRender);
             }
         });
+
+        // Modal Handlers
+        function openQuoteModal(serviceName) {
+            const modal = document.getElementById('quoteModal');
+            const serviceSelect = document.getElementById('serviceCategory');
+            if (serviceName && serviceSelect) {
+                for (let i = 0; i < serviceSelect.options.length; i++) {
+                    if (serviceSelect.options[i].text.toLowerCase().includes(serviceName.toLowerCase())) {
+                        serviceSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+            modal.classList.add('active');
+        }
+
+        function openLocationModal() {
+            document.getElementById('locationModal').classList.add('active');
+        }
+
+        function openServicesModal() {
+            document.getElementById('servicesModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function closeOnBackdrop(e, modalId) {
+            if (e.target.id === modalId) {
+                closeModal(modalId);
+            }
+        }
+
+        // Formspree AJAX Submission
+        async function submitFormspree(e) {
+            e.preventDefault();
+            const form = document.getElementById('formspreeForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const statusBox = document.getElementById('formStatus');
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+            statusBox.className = 'form-status';
+            statusBox.style.display = 'none';
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('https://formspree.io/f/xzezbrkw', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    statusBox.className = 'form-status success';
+                    statusBox.innerHTML = '<i class="fa-solid fa-circle-check"></i> Thank you! Your request has been sent to Ayyappa Car Accessories. We will call you shortly at ' + (formData.get('phone') || 'your number') + '!';
+                    form.reset();
+                    submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Submitted Successfully';
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Another Request';
+                    }, 3000);
+                } else {
+                    const data = await response.json();
+                    statusBox.className = 'form-status error';
+                    statusBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Submission error: ' + (data.errors ? data.errors.map(err => err.message).join(', ') : 'Please try again or contact us via WhatsApp.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Try Again';
+                }
+            } catch (error) {
+                statusBox.className = 'form-status error';
+                statusBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Network error. Please call us directly at +91 9700314415.';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Try Again';
+            }
+        }
     </script>
 </body>
 </html>
