@@ -1,6 +1,6 @@
-# Luxury Smooth Scroll Experience
+# AYYAPPA - Premium Car Accessories
 
-An interactive, high-performance scroll-driven car animation landing page built with HTML5 Canvas, Vanilla JavaScript, and CSS.
+Interactive, high-performance scroll-driven car animation landing page for **AYYAPPA Car Accessories**.
 
 ## Features
 - **Canvas-based 60fps frame rendering** tied to scroll position
